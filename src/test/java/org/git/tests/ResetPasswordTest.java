@@ -14,4 +14,10 @@ public class ResetPasswordTest {
         boolean result = resetPassword.changePassword(oldPassword,newPassword);
         Assert.assertFalse(result,testMessage);
     }
+
+    @Test(dataProvider = "ValidPasswordData", dataProviderClass = ResetPasswordDataProvider.class)
+    public void verifyValidPassword(String testMessage, String oldPassword, String newPassword){
+        boolean result = resetPassword.changePassword(oldPassword,newPassword);
+        Assert.assertTrue(result,testMessage);
+    }
 }

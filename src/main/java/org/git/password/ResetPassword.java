@@ -69,27 +69,29 @@ public class ResetPassword implements PasswordConstants {
 
     }
     public boolean isPasswordSimilar() {
-        if(oldPassword.equals(newPassword)){
-            logger.warn("Old and new passwords are same");
+
+        int similarityCounter = 0;
+        String shorterPassword = newPassword, longerPassword = oldPassword;
+        if(newPassword.length()>oldPassword.length()) {
+            shorterPassword = oldPassword;
+            longerPassword = newPassword;
+        }
+        if(longerPassword.contains(shorterPassword)){
+            logger.warn("Old/New Password cannot contain same sequence of characters");
             return true;
         }
-        int similarityCounter = 0;
-        String shorterPassword = oldPassword, longerPassword = newPassword;
-        if(newPassword.length()>oldPassword.length()) {
-            shorterPassword = newPassword;
-            longerPassword = oldPassword;
-        }
+
         int shorterPasswordLength = shorterPassword.length();
         int longerPasswordLength = longerPassword.length();
-        int lengthDiffInPercent = ((longerPassword.length()-shorterPassword.length())/longerPassword.length())*100;
+        int lengthDiffInPercent = (longerPassword.length()-shorterPassword.length())*100/longerPassword.length();
         if((100-MAX_SIMILARITY_ALLOWED_PCT) < lengthDiffInPercent){ //Checking for too much variation in length differences
             logger.info("Too much length difference for passwords to be similar");
             return false;
         }
-        int maxAllowedSameChars = (MAX_SIMILARITY_ALLOWED_PCT/100) * longerPassword.length();
+        int maxAllowedSameChars = (MAX_SIMILARITY_ALLOWED_PCT * longerPassword.length())/100;
 
-        for(int i=0;i<longerPasswordLength;i++){
-            if(shorterPassword.contains(longerPassword.substring(i,maxAllowedSameChars+1)))
+        for(int i=0;i<longerPasswordLength-maxAllowedSameChars;i++){
+            if(shorterPassword.contains(longerPassword.substring(i,maxAllowedSameChars+1+i)))
                 return true;
         }
         return false;
