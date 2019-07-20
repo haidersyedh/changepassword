@@ -1,0 +1,33 @@
+# Binaries
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.class
+.attach_*
+
+
+# # Build output directies
+/target
+*/target
+/build
+*/build
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+*.idea
+.idea/
+/bin
+
+#Log and Swap Files
+*.swp
+*.log
