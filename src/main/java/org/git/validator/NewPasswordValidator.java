@@ -14,12 +14,12 @@ public class NewPasswordValidator implements PasswordConstants {
     private char[] charPassword;
     private Map<Character, Integer> charFrequencyMap;
 
-    public NewPasswordValidator(String newPassword)
-    {
+    public NewPasswordValidator(String newPassword) {
         this.newPassword = newPassword;
         charPassword = newPassword.toCharArray();
         charFrequencyMap = StringHelper.buildCharacterFrequencyMap(newPassword);
     }
+
     public boolean isNewPasswordLengthy() {
         //Validate password length should not be less than 18 characters
         if (newPassword.length() < MIN_LENGTH_OF_PASSWORD) {
@@ -77,9 +77,10 @@ public class NewPasswordValidator implements PasswordConstants {
         }
         return true;
     }
-    public boolean validateDigitsCount(){
-        int numbersCount=0;
-        int allowedNumberCount = (newPassword.length() * MAX_DIGITS_ALLOWED_PCT)/100;
+
+    public boolean validateDigitsCount() {
+        int numbersCount = 0;
+        int allowedNumberCount = (newPassword.length() * MAX_DIGITS_ALLOWED_PCT) / 100;
         Set<Character> charsInPassword = charFrequencyMap.keySet();
         for (char c : charsInPassword) {
             if (Character.isDigit(c))
@@ -91,15 +92,15 @@ public class NewPasswordValidator implements PasswordConstants {
         }
         return true;
     }
-    public boolean validateSpecialCharsAndSpaces(){
-        for(char c: charPassword){
-            if(!Character.isLetter(c) && !Character.isDigit(c)){
-                if(Character.isSpaceChar(c)){
+
+    public boolean validateSpecialCharsAndSpaces() {
+        for (char c : charPassword) {
+            if (!Character.isLetter(c) && !Character.isDigit(c)) {
+                if (Character.isSpaceChar(c)) {
                     logger.warn("New Password Contains a Space");
                     return false;
-                }
-                else{
-                    if(!SPECIAL_CHARS.contains(String.valueOf(c))){
+                } else {
+                    if (!SPECIAL_CHARS.contains(String.valueOf(c))) {
                         logger.warn("Password Contains Invalid Special Character");
                         return false;
                     }

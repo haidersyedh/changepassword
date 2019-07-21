@@ -1,5 +1,6 @@
 package org.git.testdata;
 
+
 import org.testng.annotations.DataProvider;
 
 public class ResetPasswordDataProvider {
@@ -20,13 +21,15 @@ public class ResetPasswordDataProvider {
                 {"Verify space character validation", "sampleOldPassword@01", "thisIaIVa lidN*wPass@01"},
                 {"Verify invalid special character validation", "sampleOldPassword@01", "thisIaIVa~lidN*wPass@01"},
                 {"Verify digits count validation", "sampleOldPassword@01", "3ahr4rt5#6e3yH98r24"},
+                {"Verify similarity validation ", "sampleOldPassword@01", "sampleOldPassword@02"},
         };
     }
 
     @DataProvider(name = "ValidPasswordData")
     public static Object[][] getValidPasswordData() {
         return new Object[][]{
-                {"Verify that valid password is accepted", "sampleOldPassword@01", "thisIsaValidNewPass@01"}
+                {"Verify that valid password is accepted", "sampleOldPassword@01", "thisIsaValidNewPass@01"},
+                {"Verify similarity validation ", "sampleOldPassword@01", "sampleOldPassworee@02"},
         };
     }
 }

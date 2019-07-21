@@ -53,8 +53,9 @@ public class ResetPassword implements PasswordConstants {
         passwordValidator = new NewPasswordValidator(newPassword);
         if (!isNewPasswordValid())
             return false;
-        if(isPasswordSimilar())
+        if (isPasswordSimilar())
             return false;
+        logger.info("Password Validation is Successful");
         return true;
     }
 
@@ -65,34 +66,34 @@ public class ResetPassword implements PasswordConstants {
                 && passwordValidator.validateSpecialCharacterCount()
                 && passwordValidator.validateDigitsCount()
                 && passwordValidator.validateSpecialCharsAndSpaces();
-
-
     }
-    public boolean isPasswordSimilar() {
 
-        int similarityCounter = 0;
+    public boolean isPasswordSimilar() {
         String shorterPassword = newPassword, longerPassword = oldPassword;
-        if(newPassword.length()>oldPassword.length()) {
+        if (newPassword.length() > oldPassword.length()) {
             shorterPassword = oldPassword;
             longerPassword = newPassword;
         }
-        if(longerPassword.contains(shorterPassword)){
+        if (longerPassword.contains(shorterPassword)) {
             logger.warn("Old/New Password cannot contain same sequence of characters");
             return true;
         }
 
         int shorterPasswordLength = shorterPassword.length();
         int longerPasswordLength = longerPassword.length();
-        int lengthDiffInPercent = (longerPassword.length()-shorterPassword.length())*100/longerPassword.length();
-        if((100-MAX_SIMILARITY_ALLOWED_PCT) < lengthDiffInPercent){ //Checking for too much variation in length differences
+        int lengthDiffInPercent = (longerPassword.length() - shorterPassword.length()) * 100 / longerPassword.length();
+        if ((100 - MAX_SIMILARITY_ALLOWED_PCT) < lengthDiffInPercent) { //Checking for too much variation in length differences
             logger.info("Too much length difference for passwords to be similar");
             return false;
         }
-        int maxAllowedSameChars = (MAX_SIMILARITY_ALLOWED_PCT * longerPassword.length())/100;
+        int maxAllowedSameChars = (MAX_SIMILARITY_ALLOWED_PCT * longerPassword.length()) / 100;
 
-        for(int i=0;i<longerPasswordLength-maxAllowedSameChars;i++){
-            if(shorterPassword.contains(longerPassword.substring(i,maxAllowedSameChars+1+i)))
+        for (int i = 0; i < longerPasswordLength - maxAllowedSameChars; i++) {
+            String longerPasswordSubStr = longerPassword.substring(i, maxAllowedSameChars + 1 + i);
+            if (shorterPassword.contains(longerPasswordSubStr)) {
+                logger.warn(longerPasswordSubStr + " is contained in both old and new passwords");
                 return true;
+            }
         }
         return false;
     }
