@@ -79,10 +79,10 @@ public class ResetPassword implements PasswordConstants {
             return true;
         }
 
-        int shorterPasswordLength = shorterPassword.length();
         int longerPasswordLength = longerPassword.length();
         int lengthDiffInPercent = (longerPassword.length() - shorterPassword.length()) * 100 / longerPassword.length();
-        if ((100 - MAX_SIMILARITY_ALLOWED_PCT) < lengthDiffInPercent) { //Checking for too much variation in length differences
+        //Checking for too much variation in length differences
+        if ((100 - MAX_SIMILARITY_ALLOWED_PCT) < lengthDiffInPercent) {
             logger.info("Too much length difference for passwords to be similar");
             return false;
         }
