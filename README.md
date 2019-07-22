@@ -29,7 +29,7 @@ Dependencies:
 
 Method Signature:
 
-The method returns true if all the conditions are satisfied. Returns false if any of the condition fails.
+The method in class ResetPassword returns true if all the conditions are satisfied. Returns false if any of the condition fails.
 
      * @param oldPassword This is the old password
      * @param newPassword This is the new password
